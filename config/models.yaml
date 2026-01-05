@@ -6,15 +6,17 @@
 # - strong: Higher capability, more expensive
 # - reason: Specialized reasoning models for CoT/ToT
 
+
+
 openai:
   general: gpt-4o-mini
   strong: gpt-4o
   reason: o3-mini  # Switch to o3 when available
 
 google:
-  general: gemini-2.0-flash-exp
-  strong: gemini-2.0-flash-thinking-exp
-  reason: gemini-3-pro-preview
+  general: gemini-2.5-flash-lite
+  strong: gemini-2.5-flash
+  reason: gemini-3-flash-preview
 
 groq:
   general: llama-3.1-8b-instant
