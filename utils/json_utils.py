@@ -11,6 +11,20 @@ import json
 import re
 from typing import Any, Dict, Optional, Tuple
 from jsonschema import validate, ValidationError, Draft7Validator
+from pydantic import BaseModel
+from typing import Optional
+from typing_extensions import Literal
+
+class CrisisEvent(BaseModel):
+    district: Optional[Literal[
+        "Colombo", "Gampaha", "Kandy", "Kalutara", 
+        "Galle", "Matara", "Ratnapura", "Nuwara Eliya", "Kegalle"
+    ]] = None
+    province:Optional[str] = None
+    flood_level_meters: Optional[float] = None
+    vicm_count: int = 0
+    main_need: str = "General Assistance"
+    status: Literal["Critical", "Warning", "Stable"]
 
 
 def extract_json(text: str) -> Optional[str]:
@@ -278,4 +292,3 @@ def format_pydantic_schema_for_prompt(pydantic_model) -> str:
     """
     schema = pydantic_to_json_schema(pydantic_model)
     return format_schema_for_prompt(schema)
-

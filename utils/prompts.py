@@ -107,20 +107,29 @@ PROMPTS: Dict[str, PromptSpec] = {
         temperature=0.5,
         max_tokens=4096,  # High limit to accommodate reasoning model "thinking" tokens
     ),
-    "json_extract.v1": PromptSpec(
+     "json_extract.v1": PromptSpec(
         id="json_extract.v1",
         purpose="Strict schema-first JSON extraction",
         template=(
-            "Extract the requested fields and return ONLY valid JSON matching this schema:\n"
+            "Extract the fields from the provided text and return a SINGLE JSON object "
+            "strictly matching the schema order below:\n"
             "${schema}\n\n"
+            "Constraints:\n"
+            "- Output MUST be a single valid JSON object only.\n"
+            "- DO NOT include markdown formatting like ```json.\n"
+            "- Follow the exact field order as defined in the schema.\n"
+            "- FOR 'main_need': Analyze the text and infer the primary requirement. "
+            "- LOCATION: Extract both District and Province. If a city or district is mentioned (e.g., 'Matara'), automatically fill its Province (e.g., 'Southern'). If only a Province is mentioned, set district to null."
+            "If not explicitly stated, use your best judgment (e.g., 'Rescue' for trapped people, 'Food/Water' for displaced).\n"
+            "- If a value is missing and cannot be inferred, use the default value.\n\n"
             "Text:\n${text}\n\n"
-            "Return ONLY JSON, no extra text."
+            "JSON Output:"
         ),
         temperature=0.0,
         max_tokens=400,
         stop=None,
     ),
-    "tool_call.v1": PromptSpec(
+     "tool_call.v1": PromptSpec(
         id="tool_call.v1",
         purpose="Instruct model to choose & call a tool when needed",
         template=(
